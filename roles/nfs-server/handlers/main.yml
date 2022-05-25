@@ -1,0 +1,7 @@
+---
+# handlers file for nfs-server
+- name: Export shares
+  ansible.builtin.command: exportfs -arv
+  register: exportshares
+  failed_when: exportshares.rc != 0
+  changed_when: exportshares.rc == 0

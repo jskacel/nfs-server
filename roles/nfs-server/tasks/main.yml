@@ -1,0 +1,31 @@
+---
+# tasks file for nfs-server
+- name: Install nfs-utils
+  ansible.builtin.package: 
+    name: nfs-utils
+    state: present
+
+- name: Enable and start nfs-server
+  ansible.builtin.systemd:
+    name: nfs-server
+    state: started
+    enabled: true
+
+- name: Check if all folders from vars exist
+  file:
+    path: "{{ item.folder }}"
+    state: directory
+    owner: nobody
+    group: nobody
+    mode: 0777
+  loop: "{{ exports }}"
+
+- name: Export config
+  ansible.builtin.template:
+     src: exports.j2
+     dest: /etc/exports
+     backup: true
+     owner: root
+     group: root
+     mode: 0644
+  notify: Export shares

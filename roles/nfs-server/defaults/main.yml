@@ -1,0 +1,6 @@
+---
+# defaults file for nfs-server
+exports:
+  - folder: "/mnt/nfsshare/"
+    clientip: "192.168.100.0/24"
+    options: rw,sync,no_all_squash
